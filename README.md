@@ -11,7 +11,7 @@ In the whorst scenario you will get RangeError: Maximum call stack size exceeded
 
 # Solution 
 
-You can use this library to avoid this two issues. 
+You can use this library to avoid this two issues. You can use each function as classic async function. But you are safe if you will use it synchronosli. That means if you will call callbacks imadiately.
 
 # Usage
 
