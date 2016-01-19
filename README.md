@@ -65,6 +65,7 @@ async.series([
 function(err, results){
     // results is now equal to ['one', 'two']
 });
+```
 
 ## Collections
 

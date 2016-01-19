@@ -1,6 +1,6 @@
 {
   "name": "async-sync",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Safe async utilities for node and the browser",
   "main": "dist/index.js",
   "keywords": [
