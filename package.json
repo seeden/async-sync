@@ -4,19 +4,13 @@
   "description": "Safe async utilities for node and the browser",
   "main": "dist/index.js",
   "keywords": [
-    "translate",
-    "locale",
-    "project",
     "module",
-    "i18n",
-    "i10n",
-    "l20n",
-    "intl",
-    "icu",
-    "cldr",
-    "react",
-    "angular",
-    "ember"
+    "utility",
+    "callback",
+    "async",
+    "sync",
+    "each",
+    "eachSeries"
   ],
   "files": [
     "dist/",
