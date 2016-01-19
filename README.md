@@ -40,6 +40,22 @@ __Arguments__
   The iterator is passed a `callback(err)` which must be called once it has
   completed. If no error has occurred, the `callback` should be run without
   arguments or with an explicit `null` argument.  The array index is not passed
-  to the iterator.  If you need the index, use [`forEachOf`](#forEachOf).
+  to the iterator.  If you need the index, use [`forEachOfSeries`](#forEachOfSeries).
 * `callback(err)` - *Optional* A callback which is called when all `iterator` functions
   have finished, or an error occurs.
+
+
+<a name="forEachOfSeries"></a>
+### forEachOfSeries(obj, iterator, [callback])
+
+Like `eachSeries`, except that it iterates over objects, and passes the key as the second argument to the iterator.
+
+__Arguments__
+
+* `obj` - An object or array to iterate over.
+* `iterator(item, key, callback)` - A function to apply to each item in `obj`.
+The `key` is the item's key, or index in the case of an array. The iterator is
+passed a `callback(err)` which must be called once it has completed. If no
+error has occurred, the callback should be run without arguments or with an
+explicit `null` argument.
+* `callback(err)` - *Optional* A callback which is called when all `iterator` functions have finished, or an error occurs.
