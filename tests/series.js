@@ -1,26 +1,26 @@
 import should from 'should';
-import { eachSeries } from '../src';
+import { series } from '../src';
 
-describe('eachSeries', () => {
+describe('series', () => {
   let t = null;
 
   it('should be able to use it synchronousli', (done) => {
-    let hasResult = false;
-    let total = 0;
+    let results = [];
 
-    eachSeries([1, 2, 3, 4, 5], (value, callback) => {
-      total += value;
-      callback(null);
-    }, () => {
-      hasResult = true;
+    series([
+      (cb) => cb(null, 1),
+      (cb) => cb(null, 2),
+      (cb) => cb(null, 3),
+    ], (err, res) => {
+      if (err) {
+        throw err;
+      }
+
+      results = res;
     });
 
-    if (total !== 15) {
+    if (results.join('') !== '123') {
       throw new Error('Something is wrong with iteration');
-    }
-
-    if (!hasResult) {
-      throw new Error('Something is wrong with sync');
     }
 
     done();
@@ -28,18 +28,17 @@ describe('eachSeries', () => {
 
   it('should be able to use it asynchronousli', (done) => {
     let hasEnd = false;
-    let total = 0;
 
-    eachSeries([1, 2, 3, 4, 5], (value, callback) => {
-      total += value;
-
-      setTimeout(() => callback(null), 100);
-    }, (err) => {
+    series([
+      (cb) => setTimeout(() => cb(null, 1), 100),
+      (cb) => setTimeout(() => cb(null, 2), 100),
+      (cb) => setTimeout(() => cb(null, 3), 100),
+    ], (err, results) => {
       if (err) {
         throw err;
       }
 
-      if (total !== 15) {
+      if (results.join('') !== '123') {
         throw new Error('Something is wrong with iteration');
       }
 
@@ -55,13 +54,12 @@ describe('eachSeries', () => {
 
   it('should be able to use it asynchronousli with error', (done) => {
     let hasEnd = false;
-    let total = 0;
 
-    eachSeries([1, 2, 3, 4, 5], (value, callback) => {
-      total += value;
-
-      setTimeout(() => callback(new Error('Bad')), 100);
-    }, (err) => {
+    series([
+      (cb) => setTimeout(() => cb(null, 1), 100),
+      (cb) => setTimeout(() => cb(null, 2), 100),
+      (cb) => setTimeout(() => cb(new Error('Bad')), 100),
+    ], (err, results) => {
       if (!err) {
         throw new Error('Error is not working');
       }

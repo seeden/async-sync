@@ -27,6 +27,45 @@ You can use this library to avoid this two issues. You can use each function as 
 
 # Usage
 
+
+## Control Flow
+
+<a name="series"></a>
+### series(tasks, [callback])
+
+Run the functions in the `tasks` array in series, each one running once the previous
+function has completed. If any functions in the series pass an error to its
+callback, no more functions are run, and `callback` is immediately called with the value of the error.
+Otherwise, `callback` receives an array of results when `tasks` have completed.
+
+
+__Arguments__
+
+* `tasks` - An array containing functions to run, each function is passed
+  a `callback(err, result)` it must call on completion with an error `err` (which can
+  be `null`) and an optional `result` value.
+* `callback(err, results)` - An optional callback to run once all the functions
+  have completed. This function gets a results array containing all
+  the result arguments passed to the `task` callbacks.
+
+__Example__
+
+```js
+async.series([
+    function(callback){
+        // do some stuff ...
+        callback(null, 'one');
+    },
+    function(callback){
+        // do some more stuff ...
+        callback(null, 'two');
+    }
+],
+// optional callback
+function(err, results){
+    // results is now equal to ['one', 'two']
+});
+
 ## Collections
 
 ### eachSeries(arr, iterator, [callback])
@@ -44,6 +83,32 @@ __Arguments__
 * `callback(err)` - *Optional* A callback which is called when all `iterator` functions
   have finished, or an error occurs.
 
+```js
+// assuming openFiles is an array of file names
+
+async.each(openFiles, function(file, callback) {
+  // Perform operation on file here.
+  console.log('Processing file ' + file);
+
+  if( file.length > 32 ) {
+    console.log('This file name is too long');
+    callback('File name too long');
+  } else {
+    // Do work to process file here
+    console.log('File processed');
+    callback();
+  }
+}, function(err){
+    // if any of the file processing produced an error, err would equal that error
+    if( err ) {
+      // One of the iterations produced an error.
+      // All processing will now stop.
+      console.log('A file failed to process');
+    } else {
+      console.log('All files have been processed successfully');
+    }
+});
+```
 
 <a name="forEachOfSeries"></a>
 ### forEachOfSeries(obj, iterator, [callback])
